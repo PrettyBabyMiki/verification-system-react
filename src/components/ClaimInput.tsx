@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { HtmlHTMLAttributes } from 'react';
 import TextField from '@material-ui/core/TextField';
 // import { makeStyles } from '@material-ui/core/styles'
 
@@ -11,13 +11,17 @@ const textOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 }
 
 function enterPressed(e: React.KeyboardEvent) {
-    if (e.key == "Enter") {
+    if (e.key === "Enter") {
         console.log("Enter key is pressed.")
     };
 }
 
-export default function ClaimInput() {
-    // const classes = useStyles();
+interface Props {
+    handleInputCallback: (e: React.ChangeEvent<HTMLInputElement>) => void
+    handleEnterCallback: (e: React.KeyboardEvent) => void
+}
+
+export default function ClaimInput(props:Props) {
     return (
         <TextField id='claim-input' 
         variant='outlined'
@@ -27,8 +31,8 @@ export default function ClaimInput() {
         autoFocus
         placeholder="Enter a claim."
         helperText="e.g. Robert Downey Junior is Iron man."
-        onChange={textOnChange}
-        onKeyPress={enterPressed}
+        onChange={props.handleInputCallback}
+        onKeyPress={props.handleEnterCallback}
         />
     );
 };

@@ -1,0 +1,6 @@
+runtime: python37
+service: default
+env: standard
+entrypoint: gunicorn -b :$PORT serve:app
+
+instance_class: F1
