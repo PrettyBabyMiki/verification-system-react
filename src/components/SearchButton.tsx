@@ -1,19 +1,36 @@
 import React from 'react'
+import {connect} from 'react-redux'
+import {Dispatch, AnyAction, compose} from 'redux';
 import Button from '@material-ui/core/Button'
 import Icon from '@material-ui/core/Icon'
-import { makeStyles, createStyles, withStyles, WithStyles } from '@material-ui/styles'
-
+import {createStyles, withStyles, WithStyles } from '@material-ui/styles'
 import axios from 'axios';
-import { Dir } from 'fs';
 
-interface Props extends WithStyles<typeof styles>{
-    claimInput: string
-    resultsListCallback: (r: Array<Array<String>>) => void
+import {AppState} from '../redux/store';
+import {UPDATE_RESULTS} from '../redux/types';
+import {UpdateResults} from '../redux/actions';
+
+const styles = () => createStyles({
+    root: {
+        margin: '3% 0px 0px 0px'
+    }
+})
+
+interface OwnProps {
+    claimInput: string;
 }
+interface DispatchProps {
+    updateResultsList: (resultsList: string[][]) => void;
+}
+
+type PublicProps = OwnProps     // Exposed for parent component's props injection
+type Props = PublicProps & DispatchProps & WithStyles<typeof styles>
+
 class SearchButton extends React.Component<Props> {
     constructor(props: Props) {
         super(props);
     }
+
     render() {
         const {classes} = this.props
         return (
@@ -32,33 +49,49 @@ class SearchButton extends React.Component<Props> {
     // search function
     search = () => {
         console.log("Send button pressed.")
-    
         const url = "https://api-gateway-dot-fact-verification-system.appspot.com/evidence"
         // const mock = "robert downey junior is iron man."
         const data = {data: {claim: this.props.claimInput}}
         console.log('data to send.', data);
-        
         axios.post(url, data)
             .then(res => {
-                const data = res.data;
                 console.log("Returned res.data", res.data);
+                this.props.updateResultsList(res.data.data)
                 // cancel loading screen.
-                this.props.resultsListCallback(res.data['data']);
             }).catch(error => {
                 console.log("error", error)
                 console.log(error.message)
-                console.log()
             })
 
-        //start loading screen.
-    
+        // start loading screen.
     }
 }
 
-const styles = () => createStyles({
-    root: {
-        margin: '3% 0px 0px 0px'
+// action creators
+function updateResultsList(rl: string[][]):UpdateResults {
+    return {
+        type: UPDATE_RESULTS,
+        resultsList: rl
     }
-})
+}
 
-export default withStyles(styles)(SearchButton);
+function mapStateToProps(storeState:AppState, ownProps: Props) {
+    console.log('storeState searchbutton', storeState);
+    
+    const filtered = storeState
+    return filtered
+}
+
+function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
+    return {
+        updateResultsList: (rl: string[][]) => dispatch(updateResultsList(rl))
+    }
+}
+
+
+const styleButton = withStyles(styles);
+const connectToStore = connect(mapStateToProps, mapDispatchToProps);
+export default compose(
+    styleButton,
+    connectToStore
+)(SearchButton) as React.ComponentType<PublicProps>;

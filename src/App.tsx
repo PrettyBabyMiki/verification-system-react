@@ -5,26 +5,9 @@ import ClaimInput from './components/ClaimInput';
 import SearchButton from './components/SearchButton'
 import ResultsList from './components/ResultsList';
 import Block from './components/layouts/Block'
-import { type } from 'os';
 
-interface Props {}
 
-interface State {
-  claimInput: string,
-  resultsList: Array<Array<String>>
-  search: () => void
-}
-
-class App extends Component<Props, State> {
-  constructor(props:Props) {
-    super(props);
-    this.state = {
-      claimInput: "",
-      resultsList: [["", ""]],
-      search: () => {}
-    }
-  }
-
+class App extends Component{
   handleInputCallback = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
       claimInput: e.currentTarget.value
@@ -36,17 +19,8 @@ class App extends Component<Props, State> {
     };
   }
 
-  /// SearchButton callbacks
-  resultsListCallback = (resultsList: Array<Array<String>>) => {
-    //sends results from
-    this.setState({resultsList: resultsList})
-  }
-  // searchFunctionCallback = (search: () => void) {
-  //   this.setState
-  // }
-
   render() {
-    return (  
+    return (
       <div className="App">
         <Grid container spacing={3} >
           <Grid item xs={12}>
@@ -57,18 +31,18 @@ class App extends Component<Props, State> {
         </Grid>
         <Grid container spacing={3} justify="center" wrap="wrap" alignItems="stretch">
           <Grid item xs={11} md={6} lg={4}>
-            <ClaimInput 
+            <ClaimInput
               handleInputCallback={this.handleInputCallback}
               handleEnterCallback={this.handleEnterCallback}
             />
           </Grid>
           <Grid item>
-            <SearchButton claimInput={this.state.claimInput} resultsListCallback={this.resultsListCallback}/>
+            <SearchButton claimInput={this.state.claimInput}/>
           </Grid>
         </Grid>
         <Block height={40}/>
         <Grid container spacing={3} justify="center">
-          <Grid item xs={8}><ResultsList resultsList={this.state.resultsList}></ResultsList></Grid>
+          <Grid item xs={8}><ResultsList/></Grid>
         </Grid>
       </div>
     );

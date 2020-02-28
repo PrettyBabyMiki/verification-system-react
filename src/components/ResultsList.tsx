@@ -3,6 +3,9 @@ import {List, ListItem, ListSubheader, ListItemText, Typography} from '@material
 import Divider from '@material-ui/core/Divider';
 import { makeStyles, createStyles, WithStyles, withStyles } from '@material-ui/styles';
 import GREY from '@material-ui/core/colors/grey';
+import { AppState } from '../redux/store';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 
 const styles = () => createStyles({
         root: {
@@ -17,13 +20,19 @@ const styles = () => createStyles({
         }
     })
 
-interface Props extends WithStyles<typeof styles> {
-    resultsList: Array<Array<String>>
+interface OwnProps {
+}
+
+interface StateProps {
+    resultsList: string[][]
 }
 
 interface State {
-    verdict: String
+    verdict: string
 }
+
+type PublicProps = OwnProps
+type Props = PublicProps &  StateProps & WithStyles<typeof styles>
 
 class ResultsList extends React.Component<Props, State>{
     state = {
@@ -54,7 +63,7 @@ class ResultsList extends React.Component<Props, State>{
         if (resultsList[0][0] == "") {return undefined}
         for (i=0; i < resultsList.length; i++) {
         listItems.push(
-        <ListItem>
+        <ListItem key={i}>
             <ListItemText>
                 {resultsList[i][0] + " => " + resultsList[i][1]}
             </ListItemText>
@@ -67,7 +76,7 @@ class ResultsList extends React.Component<Props, State>{
         const resultsList = this.props.resultsList
         if (resultsList[0][0] === "") {return ""}
 
-        var numSupports: number = 0;
+        let numSupports: number = 0;
         resultsList.forEach( result => {
             if (result[1] === "SUPPORTS") {
                 numSupports += 1
@@ -80,12 +89,25 @@ class ResultsList extends React.Component<Props, State>{
         }
     }
     getDivider = () => {
-        if (this.getVerdict() != "") {
+        if (this.getVerdict() !== "") {
             console.log("DIVIDER!")
             return <Divider/>
         }
     }
 }
 
-const styledResultsList = withStyles(styles)(ResultsList)
-export default styledResultsList
+// react-redux
+function mapStateToProps(storeState: AppState): StateProps{
+    return {
+        resultsList: storeState.resultsList
+    }
+}
+
+
+const styleResultsList = withStyles(styles)
+const connectToStore = connect(mapStateToProps)
+
+export default compose(
+    styleResultsList,
+    connectToStore
+)(ResultsList) as React.ComponentType<PublicProps>
