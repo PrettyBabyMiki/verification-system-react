@@ -1,38 +1,103 @@
-import React, { HtmlHTMLAttributes } from 'react';
+import React, { Component, Dispatch } from 'react';
 import TextField from '@material-ui/core/TextField';
-// import { makeStyles } from '@material-ui/core/styles'
+import { AnyAction } from 'redux';
+import { connect } from 'react-redux';
+import axios from 'axios';
 
-// const useStyles = makeStyles({
-//     root: {}
-// })
+import { UpdateInput,  UpdateResults} from '../redux/actions';
+import { UPDATE_INPUT,  UPDATE_RESULTS} from '../redux/types';
+import { AppState } from '../redux/store'
 
-const textOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.currentTarget.value)
+
+interface State {
+    claimInput: string
 }
 
-function enterPressed(e: React.KeyboardEvent) {
-    if (e.key === "Enter") {
-        console.log("Enter key is pressed.")
-    };
+interface OwnProps {
+    enterCallback: (e: React.KeyboardEvent) => void;
+}
+interface StateProps {
+    claimInput: string;
 }
 
-interface Props {
-    handleInputCallback: (e: React.ChangeEvent<HTMLInputElement>) => void
-    handleEnterCallback: (e: React.KeyboardEvent) => void
+interface DispatchProps {
+    updateClaimInput: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    updateResultsList: (rl: string[][]) => void;
 }
 
-export default function ClaimInput(props:Props) {
-    return (
-        <TextField id='claim-input' 
-        variant='outlined'
-        type='search'
-        size='medium'
-        fullWidth
-        autoFocus
-        placeholder="Enter a claim."
-        helperText="e.g. Robert Downey Junior is Iron man."
-        onChange={props.handleInputCallback}
-        onKeyPress={props.handleEnterCallback}
-        />
-    );
-};
+type PublicProps = OwnProps
+type Props = PublicProps & DispatchProps & StateProps
+class ClaimInput extends Component<Props, State> {
+    constructor(props: Props) {
+        super(props);
+    }
+    render() {
+        return (
+            <TextField id='claim-input'
+            variant='outlined'
+            type='search'
+            size='medium'
+            fullWidth
+            autoFocus
+            placeholder="Enter a claim."
+            helperText="e.g. Try 'Robert Downey Junior is Iron man' then 'Robert Downey Junior is NOT Iron man'."
+            onChange={this.props.updateClaimInput}
+            onKeyPress={this.handleEnter}
+            />
+        )
+    }
+
+    handleEnter = (e: React.KeyboardEvent) => {
+        if (e.key !== "Enter") { return ; }
+        // console.log('search', this.search);
+        console.log('props', this.props);
+        this.search();
+    }
+    search = () => {
+        console.log("Send button pressed with enter key.")
+        const url = "https://api-gateway-dot-fact-verification-system.appspot.com/evidence"
+        const data = {data: {claim: this.props.claimInput}}
+        console.log('data to send.', data);
+        axios.post(url, data)
+            .then(res => {
+                console.log("Returned res.data", res.data);
+                this.props.updateResultsList(res.data.data)
+                // cancel loading screen.
+            }).catch(error => {
+                console.log("error", error)
+                console.log(error.message)
+            })
+        // start loading screen.
+    }
+}
+
+// Redux
+// Action Creators
+function updateClaimInput(e: React.ChangeEvent<HTMLInputElement>): UpdateInput {
+    return {
+        type: UPDATE_INPUT,
+        input: e.currentTarget.value
+    }
+}
+
+function updateResultsList(rl: string[][]):UpdateResults {
+    return {
+        type: UPDATE_RESULTS,
+        resultsList: rl
+    }
+}
+
+function mapStateToProps(appState: AppState): StateProps {
+    return {
+        claimInput: appState.claimInput
+    }
+}
+
+function mapDispatchToProps(dispatch: Dispatch<AnyAction>):DispatchProps{
+    return {
+        updateClaimInput: (e: React.ChangeEvent<HTMLInputElement>) => dispatch(updateClaimInput(e)),
+        updateResultsList: (rl: string[][]) => dispatch(updateResultsList(rl))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ClaimInput) as React.ComponentType<PublicProps>

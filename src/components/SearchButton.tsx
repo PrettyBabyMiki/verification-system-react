@@ -7,7 +7,7 @@ import {createStyles, withStyles, WithStyles } from '@material-ui/styles'
 import axios from 'axios';
 
 import {AppState} from '../redux/store';
-import {UPDATE_RESULTS} from '../redux/types';
+import {UPDATE_RESULTS, ENTER_BUTTON} from '../redux/types';
 import {UpdateResults} from '../redux/actions';
 
 const styles = () => createStyles({
@@ -17,14 +17,17 @@ const styles = () => createStyles({
 })
 
 interface OwnProps {
-    claimInput: string;
 }
 interface DispatchProps {
     updateResultsList: (resultsList: string[][]) => void;
+    enterButtonReset: () => void;
+}
+interface StateProps {
+    claimInput: string
 }
 
 type PublicProps = OwnProps     // Exposed for parent component's props injection
-type Props = PublicProps & DispatchProps & WithStyles<typeof styles>
+type Props = PublicProps & StateProps & DispatchProps & WithStyles<typeof styles>
 
 class SearchButton extends React.Component<Props> {
     constructor(props: Props) {
@@ -62,7 +65,6 @@ class SearchButton extends React.Component<Props> {
                 console.log("error", error)
                 console.log(error.message)
             })
-
         // start loading screen.
     }
 }
@@ -75,16 +77,16 @@ function updateResultsList(rl: string[][]):UpdateResults {
     }
 }
 
-function mapStateToProps(storeState:AppState, ownProps: Props) {
-    console.log('storeState searchbutton', storeState);
-    
-    const filtered = storeState
-    return filtered
+function mapStateToProps(appState:AppState, ownProps: Props) {
+    console.log('storeState searchbutton', appState);
+    return {
+        claimInput: appState.claimInput
+    }
 }
 
 function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
     return {
-        updateResultsList: (rl: string[][]) => dispatch(updateResultsList(rl))
+        updateResultsList: (rl: string[][]) => dispatch(updateResultsList(rl)),
     }
 }
 

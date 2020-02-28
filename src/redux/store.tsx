@@ -4,12 +4,14 @@ import rootReducer from './reducers';
 
 export interface AppState {
     showMessage: false;
-    resultsList: string[][]
+    resultsList: string[][];
+    claimInput: string;
 }
 
 export const initialState: AppState = {
     showMessage: false,
-    resultsList: [['']]
+    resultsList: [['']],
+    claimInput: '',
 }
 
 const store = createStore(rootReducer, initialState);

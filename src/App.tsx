@@ -8,14 +8,10 @@ import Block from './components/layouts/Block'
 
 
 class App extends Component{
-  handleInputCallback = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      claimInput: e.currentTarget.value
-    })
-  }
   handleEnterCallback = (e: React.KeyboardEvent) => {
     if (e.key === "Enter") {
         console.log("Enter key is presseddd.")
+        // search
     };
   }
 
@@ -31,13 +27,10 @@ class App extends Component{
         </Grid>
         <Grid container spacing={3} justify="center" wrap="wrap" alignItems="stretch">
           <Grid item xs={11} md={6} lg={4}>
-            <ClaimInput
-              handleInputCallback={this.handleInputCallback}
-              handleEnterCallback={this.handleEnterCallback}
-            />
+            <ClaimInput enterCallback={this.handleEnterCallback}/>
           </Grid>
           <Grid item>
-            <SearchButton claimInput={this.state.claimInput}/>
+            <SearchButton/>
           </Grid>
         </Grid>
         <Block height={40}/>
