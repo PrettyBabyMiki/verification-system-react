@@ -3,4 +3,7 @@ service: default
 env: standard
 entrypoint: gunicorn -b :$PORT serve:app
 
+default_expiration: "2s"
+
+
 instance_class: F1
