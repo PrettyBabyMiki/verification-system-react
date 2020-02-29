@@ -39,8 +39,11 @@ class ClaimInput extends Component<Props, State> {
         }
     }
 
-    render() {
+    componentDidMount(){
         this.props.updateClaimInput(this.state.defaultValue)
+    }
+
+    render() {
         return (
             <TextField id='claim-input'
             variant='outlined'
@@ -57,6 +60,7 @@ class ClaimInput extends Component<Props, State> {
             />
         )
     }
+
     handleTextChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({...this.state, errorState:false})
         this.props.updateClaimInput(e.currentTarget.value);
