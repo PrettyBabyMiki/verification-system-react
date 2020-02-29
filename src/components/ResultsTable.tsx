@@ -59,10 +59,11 @@ class ResultsTable extends React.Component<Props, State> {
     }
 
     renderRows(){
-        return this.props.resultsList.map(listItem => {
+        console.log(this.props.resultsList)
+        return this.props.resultsList.map((listItem, i) => {
             const row = this.createData(listItem[0], listItem[1])
             return (
-                <TableRow key={row.sentence}>
+                <TableRow key={i}>
                     <TableCell component='th' scope='row'>{row.verdict}</TableCell>
                     <TableCell>{row.sentence}</TableCell>
                 </TableRow>
