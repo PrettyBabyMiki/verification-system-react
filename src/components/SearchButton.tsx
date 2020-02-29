@@ -17,6 +17,7 @@ const styles = () => createStyles({
 })
 
 interface OwnProps {
+    toggleLoadingCallback: (loading: boolean) => void;
 }
 interface DispatchProps {
     updateResultsList: (resultsList: string[][]) => void;
@@ -51,19 +52,20 @@ class SearchButton extends React.Component<Props> {
 
     // search function
     search = () => {
-        console.log("Send button pressed.")
         const url = "https://api-gateway-dot-fact-verification-system.appspot.com/evidence"
-        // const mock = "robert downey junior is iron man."
         const data = {data: {claim: this.props.claimInput}}
-        console.log('data to send.', data);
+        this.props.toggleLoadingCallback(true);
         axios.post(url, data)
             .then(res => {
+                this.props.toggleLoadingCallback(false);
                 console.log("Returned res.data", res.data);
                 this.props.updateResultsList(res.data.data)
                 // cancel loading screen.
             }).catch(error => {
                 console.log("error", error)
                 console.log(error.message)
+            }).finally(() => {
+                this.props.toggleLoadingCallback(false);
             })
         // start loading screen.
     }

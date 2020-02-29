@@ -15,6 +15,7 @@ interface State {
 
 interface OwnProps {
     enterCallback: (e: React.KeyboardEvent) => void;
+    toggleLoadingCallback: (loading: boolean) => void;
 }
 interface StateProps {
     claimInput: string;
@@ -58,14 +59,18 @@ class ClaimInput extends Component<Props, State> {
         const url = "https://api-gateway-dot-fact-verification-system.appspot.com/evidence"
         const data = {data: {claim: this.props.claimInput}}
         console.log('data to send.', data);
+        this.props.toggleLoadingCallback(true);
         axios.post(url, data)
             .then(res => {
+                this.props.toggleLoadingCallback(false);
                 console.log("Returned res.data", res.data);
                 this.props.updateResultsList(res.data.data)
                 // cancel loading screen.
             }).catch(error => {
                 console.log("error", error)
                 console.log(error.message)
+            }).finally(() => {
+                this.props.toggleLoadingCallback(false);
             })
         // start loading screen.
     }

@@ -1,7 +1,7 @@
-import React,  {useState} from 'react';
+import React from 'react';
 import {List, ListItem, ListSubheader, ListItemText, Typography} from '@material-ui/core';
 import Divider from '@material-ui/core/Divider';
-import { makeStyles, createStyles, WithStyles, withStyles } from '@material-ui/styles';
+import { createStyles, WithStyles, withStyles } from '@material-ui/styles';
 import GREY from '@material-ui/core/colors/grey';
 import { AppState } from '../redux/store';
 import { connect } from 'react-redux';
@@ -49,7 +49,7 @@ class ResultsList extends React.Component<Props, State>{
                     {<Typography className={classes.verdict}>{this.getVerdict().toUpperCase()}</Typography>}
                 </ListSubheader>
             }>
-            {this.getDivider()}
+            <Divider/>
             {
                 this.renderItems()
             }
@@ -60,7 +60,7 @@ class ResultsList extends React.Component<Props, State>{
         const resultsList = this.props.resultsList
         var i;
         var listItems = [];
-        if (resultsList[0][0] == "") {return undefined}
+        if (resultsList[0][0] === "") {return undefined}
         for (i=0; i < resultsList.length; i++) {
         listItems.push(
         <ListItem key={i}>
@@ -86,12 +86,6 @@ class ResultsList extends React.Component<Props, State>{
             return "True!";
         } else {
             return "False!";
-        }
-    }
-    getDivider = () => {
-        if (this.getVerdict() !== "") {
-            console.log("DIVIDER!")
-            return <Divider/>
         }
     }
 }
