@@ -83,7 +83,6 @@ class ClaimInput extends Component<Props, State> {
         axios.post(url, data)
             .then(res => {
                 this.props.toggleLoadingCallback(false);
-                console.log("Returned res.data", res.data);
                 this.props.updateResultsList(res.data.data)
                 // cancel loading screen.
             }).catch(error => {

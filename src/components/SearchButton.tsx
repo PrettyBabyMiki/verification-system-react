@@ -56,7 +56,6 @@ class SearchButton extends React.Component<Props> {
         axios.post(url, data)
             .then(res => {
                 this.props.toggleLoadingCallback(false);
-                console.log("Returned res.data", res.data);
                 this.props.updateResultsList(res.data.data)
                 // cancel loading screen.
             }).catch(error => {
