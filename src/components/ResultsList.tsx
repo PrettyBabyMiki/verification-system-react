@@ -58,8 +58,8 @@ class ResultsList extends React.Component<Props, State>{
     }
     renderItems = () => {
         const resultsList = this.props.resultsList
-        var i;
-        var listItems = [];
+        let i;
+        const listItems = [];
         if (resultsList[0][0] === "") {return undefined}
         for (i=0; i < resultsList.length; i++) {
         listItems.push(

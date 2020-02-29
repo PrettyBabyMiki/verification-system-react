@@ -7,7 +7,7 @@ import {createStyles, withStyles, WithStyles } from '@material-ui/styles'
 import axios from 'axios';
 
 import {AppState} from '../redux/store';
-import {UPDATE_RESULTS, ENTER_BUTTON} from '../redux/types';
+import {UPDATE_RESULTS} from '../redux/types';
 import {UpdateResults} from '../redux/actions';
 
 const styles = () => createStyles({
@@ -18,6 +18,7 @@ const styles = () => createStyles({
 
 interface OwnProps {
     toggleLoadingCallback: (loading: boolean) => void;
+    toggleErrorDisplayCallback: (showError: boolean, message?:string) => void;
 }
 interface DispatchProps {
     updateResultsList: (resultsList: string[][]) => void;
@@ -31,10 +32,6 @@ type PublicProps = OwnProps     // Exposed for parent component's props injectio
 type Props = PublicProps & StateProps & DispatchProps & WithStyles<typeof styles>
 
 class SearchButton extends React.Component<Props> {
-    constructor(props: Props) {
-        super(props);
-    }
-
     render() {
         const {classes} = this.props
         return (
@@ -52,6 +49,7 @@ class SearchButton extends React.Component<Props> {
 
     // search function
     search = () => {
+        this.props.toggleErrorDisplayCallback(false)
         const url = "https://api-gateway-dot-fact-verification-system.appspot.com/evidence"
         const data = {data: {claim: this.props.claimInput}}
         this.props.toggleLoadingCallback(true);
@@ -62,8 +60,7 @@ class SearchButton extends React.Component<Props> {
                 this.props.updateResultsList(res.data.data)
                 // cancel loading screen.
             }).catch(error => {
-                console.log("error", error)
-                console.log(error.message)
+                this.props.toggleErrorDisplayCallback(true, error.response.data.message)
             }).finally(() => {
                 this.props.toggleLoadingCallback(false);
             })
@@ -80,7 +77,6 @@ function updateResultsList(rl: string[][]):UpdateResults {
 }
 
 function mapStateToProps(appState:AppState, ownProps: Props) {
-    console.log('storeState searchbutton', appState);
     return {
         claimInput: appState.claimInput
     }
