@@ -59,7 +59,7 @@ class ResultsTable extends React.Component<Props, State> {
     }
 
     renderRows(){
-        console.log(this.props.resultsList)
+        // console.log(this.props.resultsList)
         return this.props.resultsList.map((listItem, i) => {
             const row = this.createData(listItem[0], listItem[1])
             return (

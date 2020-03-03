@@ -10,8 +10,9 @@ import { AppState } from '../redux/store'
 
 
 interface State {
-    errorState: boolean
-    defaultValue: string
+    errorState: boolean;
+    defaultValue: string;
+    helperText: string;
 }
 
 interface OwnProps {
@@ -35,7 +36,8 @@ class ClaimInput extends Component<Props, State> {
         super(props);
         this.state = {
             errorState:false,
-            defaultValue: "Robert Downey Junior is Iron man."
+            defaultValue: "Melbourne is a city in Australia.",
+            helperText: "then try 'Melbourne is not a city in Australia.'"
         }
     }
 
@@ -54,7 +56,7 @@ class ClaimInput extends Component<Props, State> {
             placeholder="Enter a claim."
             error={this.state.errorState}
             defaultValue={this.state.defaultValue}
-            helperText="Then try 'Robert Downey Junior is NOT Iron man'."
+            helperText={this.state.helperText}
             onChange={this.handleTextChange}
             onKeyPress={this.handleEnter}
             />
@@ -69,7 +71,7 @@ class ClaimInput extends Component<Props, State> {
     handleEnter = (e: React.KeyboardEvent) => {
         if (e.key !== "Enter") { return ; }
         if (this.props.claimInput.length <= 0) {
-            console.log("please enter something.")
+            this.props.toggleErrorDisplayCallback(true, "Please enter something.")
             this.setState({...this.state, errorState:true})
             return
         }
@@ -86,8 +88,6 @@ class ClaimInput extends Component<Props, State> {
                 this.props.updateResultsList(res.data.data)
                 // cancel loading screen.
             }).catch(error => {
-                console.log("error", error)
-                console.log(error.message)
                 this.props.toggleErrorDisplayCallback(true, error.message)
             }).finally(() => {
                 this.props.toggleLoadingCallback(false);
