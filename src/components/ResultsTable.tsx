@@ -7,6 +7,7 @@ import {Typography} from '@material-ui/core'
 import {createStyles, withStyles, WithStyles} from '@material-ui/styles'
 import { connect } from 'react-redux';
 import {compose} from 'redux';
+import {CSSTransition} from 'react-transition-group';
 
 
 interface Row {
@@ -16,7 +17,9 @@ interface Row {
 
 interface State {
     finalVerdict: string;
-    rows: Row[]
+    rows: Row[];
+    enterResults: boolean;
+    enterVerdict: boolean;
 }
 interface OwnProps {}
 
@@ -27,19 +30,25 @@ interface StateProps {
 type PublicProps = OwnProps
 type Props = StateProps & WithStyles<typeof styles>
 class ResultsTable extends React.Component<Props, State> {
+    enter: boolean;
     constructor(props: Props) {
         super(props)
         this.state = {
             finalVerdict: "",
-            rows: [{sentence:"", verdict:""}]
+            rows: [{sentence:"", verdict:""}],
+            enterResults: false,
+            enterVerdict: false,
         }
+        this.enter = false;
     }
 
     // Overrides render method
     render(){
         const {classes} = this.props
+        this.initFadeIn(this.props.resultsList.length)
         return(
             <React.Fragment>
+            <CSSTransition in={this.state.enterResults} timeout={500} mountOnEnter classNames='fade'>
             <TableContainer>
                 <Table size='small' aria-label="table">
                     <TableHead>
@@ -53,13 +62,16 @@ class ResultsTable extends React.Component<Props, State> {
                     </TableBody>
                 </Table>
             </TableContainer>
-            {this.renderVerdictFooter()}
+            </CSSTransition>
+            <CSSTransition in={this.state.enterVerdict} timeout={1000} mountOnEnter classNames='fade'>
+                <Typography className={classes.finalVerdict}>Final Verdict: {this.getVerdict()}</Typography>
+            </CSSTransition>
+            {/* {this.renderVerdictFooter()} */}
             </React.Fragment>
         )
     }
 
     renderRows(){
-        // console.log(this.props.resultsList)
         return this.props.resultsList.map((listItem, i) => {
             const row = this.createData(listItem[0], listItem[1])
             return (
@@ -74,6 +86,7 @@ class ResultsTable extends React.Component<Props, State> {
     renderVerdictFooter() {
         if (this.props.resultsList.length <= 1) {return;}
         const {classes} = this.props
+        console.log('verdictfooter enter', this.enter);
         return (
             <Typography className={classes.finalVerdict}>Final Verdict: {this.getVerdict()}</Typography>
         )
@@ -98,6 +111,16 @@ class ResultsTable extends React.Component<Props, State> {
 
     createData(sentence: string, verdict: string) {
         return {sentence, verdict}
+    }
+
+    initFadeIn = (resultsLength: number) => {
+        if (resultsLength > 1 && this.state.enterResults !== true) {
+            this.setState({
+                ...this.state,
+                enterResults: true
+            })
+            window.setTimeout(()=>{this.setState({...this.state, enterVerdict: true})}, 1000);
+        }
     }
 }
 

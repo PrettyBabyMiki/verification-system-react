@@ -59,7 +59,11 @@ class SearchButton extends React.Component<Props> {
                 this.props.updateResultsList(res.data.data)
                 // cancel loading screen.
             }).catch(error => {
-                this.props.toggleErrorDisplayCallback(true, error.response.data.message)
+                let message = "unknown error."
+                if (error.response.data) {
+                    message = error.response.data.message
+                }
+                this.props.toggleErrorDisplayCallback(true, message)
             }).finally(() => {
                 this.props.toggleLoadingCallback(false);
             })

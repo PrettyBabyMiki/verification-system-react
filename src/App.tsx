@@ -6,7 +6,8 @@ import SearchButton from './components/SearchButton'
 // import ResultsList from './components/ResultsList';
 import Block from './components/layouts/Block'
 import ReactLoading from 'react-loading';
-import ResultsTable from './components/ResultsTable'
+import ResultsTable from './components/ResultsTable';
+import Title from './components/Title';
 
 interface State {
   toggleLoading: boolean;
@@ -54,7 +55,7 @@ class App extends Component<Props, State>{
         <Grid container spacing={3} >
           <Grid item xs={12}>
               <header className="App-header">
-              <Typography variant='h1' gutterBottom >Fact Verification System</Typography>
+              <Title/>
               </header>
           </Grid>
         </Grid>

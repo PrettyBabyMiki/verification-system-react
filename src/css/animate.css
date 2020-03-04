@@ -1,0 +1,40 @@
+.fade-enter {
+    opacity: 0.01
+}
+.fade-enter.fade-enter-active {
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+.fade-long-enter {
+    opacity: 0.01
+}
+
+.fade-long-enter.fade-long-enter-active {
+    animation-delay: 50000ms;
+    opacity: 1;
+    transition: opacity 500ms ease-in;
+}
+
+
+.typewriter-enter {
+    width: 0;
+    /* animation:  4s steps(29,end) 1s 1 normal both,
+                600ms steps(29,end) infinite; */
+}
+
+
+.typewriter-enter.typewriter-enter-active {
+    width: 472px;
+    animation: animated-text 4s steps(29,end) 1s 1 normal both
+}
+
+@keyframes animated-cursor{
+    from{border-right-color: rgba(0,255,0,.75);}
+    to{border-right-color: transparent;}
+}
+
+@keyframes animated-text{
+    from{width: 0;}
+    to{width: 472px;}
+}
