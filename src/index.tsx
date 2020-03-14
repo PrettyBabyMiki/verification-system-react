@@ -10,11 +10,29 @@ import {MuiThemeProvider, createMuiTheme} from '@material-ui/core/styles'
 const theme = createMuiTheme ({
     typography: {
         fontFamily: [
-            'Oxanium'
+            'Oxanium',
+            'Lato',
+            'Ubuntu',
+            'Roboto'
         ].join(','),
         h1: {
             fontFamily: 'Oxanium',
             fontSize: 85,
+        },
+        body1: {
+            fontFamily: 'Oxanium'
+        },
+        body2:{
+            fontFamily: 'Roboto',
+            fontSize: 16
+        },
+        subtitle1: {
+            fontFamily: 'Oxanium',
+            fontSize: 12,
+        },
+        subtitle2: {
+            fontFamily: 'Roboto',
+            fontSize: 20
         }
     }
 })

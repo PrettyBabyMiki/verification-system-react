@@ -1,5 +1,6 @@
 import React, { Component, Dispatch } from 'react';
 import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography'
 import { AnyAction } from 'redux';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -36,8 +37,8 @@ class ClaimInput extends Component<Props, State> {
         super(props);
         this.state = {
             errorState:false,
-            defaultValue: "Melbourne is a city in Australia.",
-            helperText: "then try 'Melbourne is not a city in Australia.'"
+            defaultValue: "",
+            helperText: "e.g. Melbourne is a city in Australia."
         }
     }
 
@@ -53,10 +54,10 @@ class ClaimInput extends Component<Props, State> {
             size='medium'
             fullWidth
             autoFocus
-            placeholder="Enter a claim."
+            placeholder="Enter a fact."
             error={this.state.errorState}
             defaultValue={this.state.defaultValue}
-            helperText={this.state.helperText}
+            helperText={<Typography variant='subtitle1'>{this.state.helperText}</Typography>}
             onChange={this.handleTextChange}
             onKeyPress={this.handleEnter}
             />

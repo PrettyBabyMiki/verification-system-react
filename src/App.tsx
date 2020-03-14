@@ -1,8 +1,10 @@
 import React, {Component} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Box from '@material-ui/core/Box'
 import ClaimInput from './components/ClaimInput';
 import SearchButton from './components/SearchButton'
+import Instructions from './components/Instructions'
 // import ResultsList from './components/ResultsList';
 import Block from './components/layouts/Block'
 import ReactLoading from 'react-loading';
@@ -59,6 +61,12 @@ class App extends Component<Props, State>{
               </header>
           </Grid>
         </Grid>
+        <Grid container spacing={3} justify='center'>
+          <Grid item xs={11} md={8} lg={6}>
+            <Instructions/>
+          </Grid>
+          <Grid item xs={12}><Block height={5}/></Grid>
+        </Grid>
         <Grid container spacing={3} justify="center" wrap="wrap" alignItems="stretch">
           <Grid item xs={11} md={6} lg={4}>
             <ClaimInput
@@ -72,6 +80,7 @@ class App extends Component<Props, State>{
               toggleErrorDisplayCallback={this.toggleErrorDisplayCallback}/>
           </Grid>
         </Grid>
+
         <Grid container spacing={10} justify='center'>
         <Grid item>
           {this.toggleLoading()}
