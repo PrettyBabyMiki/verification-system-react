@@ -24,7 +24,8 @@ const theme = createMuiTheme ({
         },
         body2:{
             fontFamily: 'Roboto',
-            fontSize: 16
+            fontSize: 16,
+            fontWeight: 800
         },
         subtitle1: {
             fontFamily: 'Oxanium',
@@ -33,6 +34,10 @@ const theme = createMuiTheme ({
         subtitle2: {
             fontFamily: 'Roboto',
             fontSize: 20
+        },
+        caption: {
+            fontFamily: 'Roboto',
+            fontWeight: 100,
         }
     }
 })
