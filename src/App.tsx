@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box'
 import ClaimInput from './components/ClaimInput';
 import SearchButton from './components/SearchButton'
 import Instructions from './components/Instructions'

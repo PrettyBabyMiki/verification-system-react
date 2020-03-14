@@ -1,5 +1,5 @@
 import React from 'react';
-import { Theme, createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
+import { createStyles, withStyles, WithStyles } from '@material-ui/core/styles';
 import ExpansionPanel from '@material-ui/core/ExpansionPanel';
 import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
@@ -29,9 +29,9 @@ type Props = PublicProps & OwnProps & WithStyles<typeof styles>
 
 
 class Instructions extends React.Component<Props, State> {
-    constructor(props: Props) {
-        super(props)
-    }
+    // constructor(props: Props) {
+    //     super(props)
+    // }
 
     render() {
         const {classes} = this.props
