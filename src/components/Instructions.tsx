@@ -54,8 +54,11 @@ class Instructions extends React.Component<Props, State> {
             <Typography variant='body2'>
                 Please enter anything you believe to be a fact on to the input bar below and hit search <Icon fontSize='small' className={classes.icon}>send</Icon> to get it verified!<br/><br/><br/>
                 <Typography variant='caption' className={classes.details}>
-                This system is trained on a subset of Wikipedia dataset so some facts you enter may return strange or no results at all. <br/>
+                This system is trained on a subset of Wikipedia dataset so some facts you enter may return strange or no results at all. <br/><br/>
+
                 For more details and source code on this project, please visit my Github <Link href="https://github.com/jackhhchan/fact-verification-system">here</Link>.<br/>
+                To see the data exploration for the natural language inference component, please click <Link href="">here</Link>.<br/>
+                Also, stay tuned for the neural network iteration writeup detailing the problems encountered and steps taken! <br/>
                 </Typography>
             </Typography>
             </ExpansionPanelDetails>
