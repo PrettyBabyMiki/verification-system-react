@@ -24,7 +24,7 @@ const styles = createStyles({
         opacity: 0.7
     },
     icon: {
-        height: '16.5px',
+        height: '16px',
         // width: '15px'
     },
 })
@@ -52,7 +52,7 @@ class Instructions extends React.Component<Props, State> {
         </ExpansionPanelSummary>
             <ExpansionPanelDetails>
             <Typography variant='body2'>
-                Please enter anything you believe to be a fact on to the input bar below and hit search <Icon fontSize='small' className={classes.icon}>send</Icon> to get it verified!<br/><br/><br/>
+                Please enter anything you believe to be a fact on to the input bar below and hit verify <Icon fontSize='small' className={classes.icon}>beenhere</Icon>!<br/><br/><br/>
                 <Typography variant='caption' className={classes.details}>
                 This system is trained on a subset of Wikipedia dataset so some facts you enter may return strange or no results at all. <br/><br/>
 

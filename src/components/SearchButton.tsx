@@ -37,12 +37,12 @@ class SearchButton extends React.Component<Props> {
         return (
             <Button
                 variant="contained"
-                endIcon={<Icon>send</Icon>}
+                endIcon={<Icon>beenhere</Icon>}
                 size="large"
                 className={classes.root}
                 onClick={this.search}
             >
-            Search
+            Verify
             </Button>
         )
     }
