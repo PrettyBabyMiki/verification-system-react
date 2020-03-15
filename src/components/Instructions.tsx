@@ -5,7 +5,8 @@ import ExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import ExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
-import Link from '@material-ui/core/Link'
+import Link from '@material-ui/core/Link';
+import Icon from '@material-ui/core/Icon';
 
 /// Standalone Component
 /// Not connected to redux store.
@@ -21,7 +22,11 @@ const styles = createStyles({
     },
     details: {
         opacity: 0.7
-    }
+    },
+    icon: {
+        height: '16.5px',
+        // width: '15px'
+    },
 })
 
 type Props = PublicProps & OwnProps & WithStyles<typeof styles>
@@ -47,10 +52,10 @@ class Instructions extends React.Component<Props, State> {
         </ExpansionPanelSummary>
             <ExpansionPanelDetails>
             <Typography variant='body2'>
-                Please enter anything you believe to be a fact on the text field above and hit search to get it verified!<br/><br/><br/>
+                Please enter anything you believe to be a fact on to the input bar below and hit search <Icon fontSize='small' className={classes.icon}>send</Icon> to get it verified!<br/><br/><br/>
                 <Typography variant='caption' className={classes.details}>
                 This system is trained on a subset of Wikipedia dataset so some facts you enter may return strange or no results at all. <br/>
-                For more details on this project, please visit my Github <Link href="https://google.com">here</Link>.
+                For more details and source code on this project, please visit my Github <Link href="https://github.com/jackhhchan/fact-verification-system">here</Link>.<br/>
                 </Typography>
             </Typography>
             </ExpansionPanelDetails>
